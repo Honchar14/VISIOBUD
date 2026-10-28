@@ -1535,6 +1535,16 @@ html.vbx-nohints #vbx-band{display:none}
 #vb .vbx-rdone .vbx-ck{width:64px;height:64px}
 #vb .vbx-rdone h4{font-size:20px;line-height:27px}
 #vb .vbx-rdone p{font-size:14px;line-height:21px;color:#5E5966;margin-top:4px}
+#vb .vbx-measure,#vb .vbx-measure *{transition:none!important;animation:none!important}
+#vb .vbx-bd{display:flex;flex-direction:column}
+#vb .vbx-pane{flex:1 0 auto}
+#vb .vbx-va .vbx-pane,#vb .vbx-vb .vbx-pane{display:flex;flex-direction:column;justify-content:center}
+#vb .vbx-pane>.vbx-logo,#vb .vbx-pane>.vbx-btn{align-self:flex-start}
+#vb .vbx-c.vbx-vb .vbx-pane>.vbx-logo,#vb .vbx-c.vbx-vb .vbx-done>.vbx-btn{align-self:center}
+#vb .vbx-c.vbx-vc .vbx-done{display:flex;flex-direction:column;justify-content:center}
+#vb .vbx-q.vbx-vc .vbx-pane{display:flex;flex-direction:column}
+#vb .vbx-q.vbx-vc .vbx-hdr{flex:none}
+#vb .vbx-q.vbx-vc .vbx-body{flex:1;display:flex;flex-direction:column;justify-content:center}
 #vb .vbx-c.vbx-va{width:860px}
 #vb .vbx-c.vbx-va .vbx-ph{width:340px}
 #vb .vbx-c.vbx-va .vbx-ph img{object-position:60% 20%}
@@ -1950,11 +1960,29 @@ async function swap(box, from, to, dir=1, before){
   await anim(from,[{opacity:1,transform:'none'},{opacity:0,transform:`translateX(${-20*dir}px)`}],{duration:200,easing:'ease-in',fill:'forwards'}).finished;
   const h0 = box.offsetHeight; from.hidden = true; from.getAnimations && from.getAnimations().forEach(a=>a.cancel());
   before && before(); to.hidden = false; const h1 = box.offsetHeight;
-  if(Math.abs(h1-h0)>2 && !box.closest('.vbx-vc')){ const ov = box.style.overflow; box.style.overflow='hidden';
-    anim(box,[{height:h0+'px'},{height:h1+'px'}],{duration:480,easing:E}).finished.then(()=>box.style.overflow=ov); }
   anim(to,[{opacity:0,transform:`translateX(${20*dir}px)`},{opacity:1,transform:'none'}],{duration:480,easing:E});
 }
 function playDone(el){ el.classList.remove('vbx-play'); void el.offsetWidth; el.classList.add('vbx-play'); }
+
+/* keep one size for the whole flow: measure every step once, lock the tallest */
+function lockSize(d, kind, v, board){
+  if(v==='C' && (board ? d.closest('.vbx-m') : mob())) return;
+  d.classList.add('vbx-measure'); d.style.height=''; const hs=[];
+  const H = () => hs.push(d.getBoundingClientRect().height);
+  if(kind==='c'){
+    const f=$('[data-pane=form]',d), dn=$('[data-pane=done]',d), em=$('.vbx-emsg',f);
+    H(); em.classList.add('vbx-on'); H(); em.classList.remove('vbx-on');
+    f.hidden=true; dn.hidden=false; $('[data-num]',dn).textContent='+38 (067) 123-45-67'; H(); f.hidden=false; dn.hidden=true;
+  } else {
+    const bd=$('.vbx-bd',d), q=$('[data-pane=q]',d); H();
+    const w=document.createElement('div'); w.innerHTML=quizRPane(v,2,["Так","Так","Іноді"]).trim(); const rp=w.firstElementChild;
+    q.hidden=true; bd.appendChild(rp); d.classList.add('vbx-res'); H();
+    $('.vbx-emsg',rp).classList.add('vbx-on'); H();
+    rp.remove(); q.hidden=false; d.classList.remove('vbx-res');
+  }
+  d.style.height = Math.ceil(Math.max(...hs)) + 'px';
+  d.classList.remove('vbx-measure');
+}
 
 /* ---------------- open / close ---------------- */
 const ov = $('.vbx-ov'); let cur = null, busy = false;
@@ -1966,6 +1994,7 @@ async function open(kind, v){
   const d = wrap.firstElementChild; d.dataset.kind = kind; d.dataset.v = v;
   ov.classList.toggle('vbx-sheet', v==='B'); ov.classList.toggle('vbx-full', v==='C');
   ov.appendChild(d); cur = d;
+  lockSize(d, kind, v);
   document.documentElement.classList.add('vbx-lock'); ov.classList.add('vbx-open');
   anim(d,[{opacity:0,transform:enterFrom(v)},{opacity:1,transform:'none'}],{duration:v==='B'&&mob()?560:700,easing:E});
   const img = $('.vbx-ph img', d); if(img) anim(img,[{transform:'scale(1.14)',filter:'saturate(.6)'},{transform:'scale(1)',filter:'saturate(1)'}],{duration:1600,easing:E});
@@ -2130,7 +2159,7 @@ function closeWel(){ const w = $('.vbx-wel'); w.classList.remove('vbx-in'); setT
 $('.vbx-wel .vbx-btn').addEventListener('click', closeWel); $('.vbx-wel .vbx-bk').addEventListener('click', closeWel);
 function init(){ placeBand(); drawHints(); setTimeout(() => $('.vbx-wel').classList.add('vbx-in'), 300); }
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-window.vbDemo = {open, close, state, tpl:{consultHTML, quizHTML, quizQPane, quizRPane}, IC, RES, LV};
+window.vbDemo = {open, close, state, lockSize, tpl:{consultHTML, quizHTML, quizQPane, quizRPane}, IC, RES, LV};
 })();
 </script>
 </body> </html>
