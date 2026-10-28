@@ -468,7 +468,7 @@ function quizQPane(v){
   if(v==='A') return `<div class="vbx-pane" data-pane="q">${logo(120)}
       <h2 class="vbx-serif vbx-st">${TQ}</h2><p class="vbx-sub vbx-st">${SQ}</p>
       <div style="margin-top:22px">${Q.map((q,i)=>`<div class="vbx-qr vbx-st"><div class="vbx-num" data-num="${i}">${i+1}</div><div class="vbx-qt">${q}</div>${qAnswers(v,i)}</div>`).join('')}</div>
-      <div class="vbx-ft vbx-st">${goBtn(260)}<div class="vbx-hint" data-hint></div></div></div>`;
+      <div class="vbx-ft vbx-st">${goBtn(260)}<div class="vbx-hint" data-hint>${IC.alertg}<span>Дайте відповідь на всі запитання · 0 з 3</span></div></div></div>`;
   if(v==='B') return `<div class="vbx-pane" data-pane="q"><div class="vbx-top">
       <div class="vbx-st">${IC.mark44}</div><h2 class="vbx-serif vbx-st">${TQ}</h2><p class="vbx-sub vbx-st">${SQ}</p></div>
       <div class="vbx-qb">${Q.map((q,i)=>`<div class="vbx-st"><div class="vbx-ql"><span>${q}</span><span>${i+1}/3</span></div>${qAnswers(v,i)}</div>`).join('')}</div>
