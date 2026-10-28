@@ -1836,7 +1836,7 @@ function consultHTML(v){
       <div style="margin-top:${v==='C'?0:36}px">${ck()}</div>
       <h3 class="vbx-serif vbx-st">Дякуємо! Заявку отримано</h3>
       <p class="vbx-st">Адміністратор зателефонує на номер <b data-num></b> найближчим часом і допоможе обрати зручний час консультації.</p>
-      <button class="vbx-btn vbx-ghost vbx-st" data-close style="margin-top:28px">Добре, закрити</button></div>`;
+      <button class="vbx-btn vbx-ghost vbx-st" data-close style="margin-top:28px">Повернутися на сайт</button></div>`;
   if(v==='A') return `<div class="vbx-dlg vbx-c vbx-va" role="dialog" aria-modal="true">${xBtn()}
     <div class="vbx-ph"><img src="${IMG.doc}" alt=""></div>
     <div class="vbx-bd"><div class="vbx-pane" data-pane="form">
@@ -1919,7 +1919,7 @@ function quizRPane(v, L, a){
 }
 
 function quizHTML(v){
-  if(v==='A') return `<div class="vbx-dlg vbx-q vbx-va" role="dialog" aria-modal="true">${xBtn()}<div class="vbx-strip" hidden></div>
+  if(v==='A') return `<div class="vbx-dlg vbx-q vbx-va" role="dialog" aria-modal="true">${xBtn()}
     <div class="vbx-ph"><img src="${IMG.eye}" alt=""><div class="vbx-sh"></div>
       <div class="vbx-cap"><b>Експрес-перевірка зору</b><span>3 запитання · менше хвилини · персональна рекомендація</span></div></div>
     <div class="vbx-bd">${quizQPane(v)}</div></div>`;
