@@ -2130,7 +2130,7 @@ function closeWel(){ const w = $('.vbx-wel'); w.classList.remove('vbx-in'); setT
 $('.vbx-wel .vbx-btn').addEventListener('click', closeWel); $('.vbx-wel .vbx-bk').addEventListener('click', closeWel);
 function init(){ placeBand(); drawHints(); setTimeout(() => $('.vbx-wel').classList.add('vbx-in'), 300); }
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-window.vbDemo = {open, close, state};
+window.vbDemo = {open, close, state, tpl:{consultHTML, quizHTML, quizQPane, quizRPane}, IC, RES, LV};
 })();
 </script>
 </body> </html>
