@@ -1698,6 +1698,11 @@ html.vbx-nohints #vb .vbx-hints{display:none}
 
 :is(#vb,#vbx-test) .vbx-x{background:#fff;box-shadow:0 4px 14px rgba(42,37,34,.16),0 1px 3px rgba(42,37,34,.08)}
 :is(#vb,#vbx-test) .vbx-x:hover{box-shadow:0 6px 18px rgba(42,37,34,.2),0 1px 3px rgba(42,37,34,.08)}
+
+:is(#vb,#vbx-test) :is(button,a,input,label):focus,:is(#vb,#vbx-test) :is(button,a,input,label):active{outline:none!important}
+:is(#vb,#vbx-test) :is(button,a,label){-webkit-tap-highlight-color:transparent}
+:is(#vb,#vbx-test) button::-moz-focus-inner{border:0}
+:is(#vb,#vbx-test) :is(button,a):focus-visible{outline:3px solid rgba(228,115,27,.45)!important;outline-offset:2px}
 </style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
