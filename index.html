@@ -1684,7 +1684,8 @@ html.vbx-nohints #vb .vbx-hints{display:none}
 @keyframes vbxBand{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes vbxIcon{from{transform:scale(.3) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
 @keyframes vbxHint{0%,100%{opacity:.9}50%{opacity:.35}}
-</style>
+
+:is(#vb,#vbx-test) .vbx-fld input,:is(#vb,#vbx-test) .vbx-fld input:focus,:is(#vb,#vbx-test) .vbx-fld input:focus-visible{outline:none!important;border:0!important;box-shadow:none!important;background:transparent!important}</style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
   <div class="vbx-toast" role="status"></div>
@@ -1704,7 +1705,7 @@ html.vbx-nohints #vb .vbx-hints{display:none}
         </div>
         <form class="vbx-st" style="animation-delay:.48s" novalidate>
           <div class="vbx-row">
-            <label class="vbx-fld"><b>+38</b><span class="vbx-sep" aria-hidden="true"></span><input type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(0__) ___-__-__" aria-label="Номер телефону"></label>
+            <label class="vbx-fld"><b>+38</b><span class="vbx-sep" aria-hidden="true"></span><input type="text" data-tel inputmode="tel" autocomplete="tel-national" placeholder="(0__) ___-__-__" aria-label="Номер телефону"></label>
             <button class="vbx-btn vbx-shine" type="submit"><span class="vbx-t">Надіслати</span><span class="vbx-sp"></span></button>
           </div>
           <div class="vbx-emsg">Введіть номер телефону повністю</div>
@@ -1758,7 +1759,7 @@ const $ = (s, r=root) => r.querySelector(s), $$ = (s, r=root) => [...r.querySele
 function fmt(d){ if(!d.length) return ''; let s='('+d.slice(0,3); if(d.length>=3) s+=') '; if(d.length>3) s+=d.slice(3,6); if(d.length>6) s+='-'+d.slice(6,8); if(d.length>8) s+='-'+d.slice(8,10); return s; }
 function digits(v){ let d=v.replace(/\D/g,''); if(d.startsWith('380')) d=d.slice(2); else if(d.startsWith('38')&&d.length>10) d=d.slice(2); if(d.length&&d[0]!=='0') d='0'+d; return d.slice(0,10); }
 function bindPhone(scope){
-  scope.querySelectorAll('input[type=tel]').forEach(inp => {
+  scope.querySelectorAll('input[data-tel]').forEach(inp => {
     inp.addEventListener('input', () => { inp.value = fmt(digits(inp.value)); inp.closest('.vbx-fld').classList.remove('vbx-err'); const m = inp.closest('form').querySelector('.vbx-emsg'); m && m.classList.remove('vbx-on'); });
     inp.addEventListener('keydown', e => { if(e.key==='Backspace' && /[)\s-]$/.test(inp.value)){ e.preventDefault(); inp.value = fmt(digits(inp.value).slice(0,-1)); } });
   });
@@ -1820,7 +1821,7 @@ const PERKS = [
   ['Менше хвилини','Результат одразу на екрані','<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="14" fill="#E6F3FB"/><rect x="19" y="7" width="6" height="4" rx="1.5" fill="#0E8FD5"/><circle cx="22" cy="24" r="11" fill="#0E8FD5"/><circle cx="22" cy="24" r="8" fill="#fff"/><path d="M22 24V18.5" stroke="#E4731B" stroke-width="2.4" stroke-linecap="round"/><path d="M22 24l3.5 2" stroke="#0E8FD5" stroke-width="2" stroke-linecap="round"/><circle cx="22" cy="24" r="1.7" fill="#E4731B"/></svg>'],
   ['Персональна порада','Рекомендація під ваш результат','<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="14" fill="#F3ECFA"/><path d="M7 23c3.6-6 8.5-9 15-9s11.4 3 15 9c-3.6 6-8.5 9-15 9S10.6 29 7 23z" fill="#9B6BC9"/><circle cx="22" cy="23" r="6" fill="#fff"/><circle cx="22" cy="23" r="3" fill="#E4731B"/><path d="M33 5l1.6 3.4L38 10l-3.4 1.6L33 15l-1.6-3.4L28 10l3.4-1.6z" fill="#F5B53D"/></svg>']
 ];
-const FIELD = `<label class="vbx-fld"><b>+38</b><span class="vbx-sep" aria-hidden="true"></span><input type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(0__) ___-__-__" aria-label="Номер телефону"></label>`;
+const FIELD = `<label class="vbx-fld"><b>+38</b><span class="vbx-sep" aria-hidden="true"></span><input type="text" data-tel inputmode="tel" autocomplete="tel-national" placeholder="(0__) ___-__-__" aria-label="Номер телефону"></label>`;
 
 function quizHTML(){
   return `<div class="vbx-pane vbx-quiz" data-pane="q">
