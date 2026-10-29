@@ -1727,6 +1727,14 @@ html.vbx-nohints #vb .vbx-hints{display:none}
 
 :is(#vb,#vbx-test) .vbx-ph::after{background:linear-gradient(90deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.55) 70%,rgba(255,255,255,.9) 88%,#fff 99%)}
 @media (max-width:800px){ :is(#vb,#vbx-test) .vbx-ph::after{background:linear-gradient(180deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.8) 72%,#fff 96%)} }
+
+/* no dark hairline at the photo edge while the pop-up animates */
+:is(#vb,#vbx-test) .vbx-pop{-webkit-backface-visibility:hidden;backface-visibility:hidden;-webkit-mask-image:-webkit-radial-gradient(white,black)}
+:is(#vb,#vbx-test) .vbx-ph{background:#fff;margin-right:-2px;isolation:isolate}
+:is(#vb,#vbx-test) .vbx-ph img{inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);-webkit-backface-visibility:hidden;backface-visibility:hidden}
+:is(#vb,#vbx-test) .vbx-ph::after{inset:-1px;z-index:1}
+:is(#vb,#vbx-test) .vbx-pb{background:transparent}
+@media (max-width:800px){ :is(#vb,#vbx-test) .vbx-ph{margin-right:0;margin-bottom:-2px} }
 </style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
