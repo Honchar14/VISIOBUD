@@ -1685,7 +1685,17 @@ html.vbx-nohints #vb .vbx-hints{display:none}
 @keyframes vbxIcon{from{transform:scale(.3) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
 @keyframes vbxHint{0%,100%{opacity:.9}50%{opacity:.35}}
 
-:is(#vb,#vbx-test) .vbx-fld input,:is(#vb,#vbx-test) .vbx-fld input:focus,:is(#vb,#vbx-test) .vbx-fld input:focus-visible{outline:none!important;border:0!important;box-shadow:none!important;background:transparent!important}</style>
+:is(#vb,#vbx-test) .vbx-fld input,:is(#vb,#vbx-test) .vbx-fld input:focus,:is(#vb,#vbx-test) .vbx-fld input:focus-visible{outline:none!important;border:0!important;box-shadow:none!important;background:transparent!important}
+:is(#vb,#vbx-test) .vbx-wrap{align-items:stretch}
+:is(#vb,#vbx-test) .vbx-card{display:flex;flex-direction:column}
+:is(#vb,#vbx-test) .vbx-card>.vbx-pane{flex:1 1 auto;display:flex;flex-direction:column}
+:is(#vb,#vbx-test) .vbx-rb{flex:1 1 auto}
+:is(#vb,#vbx-test) .vbx-qf{margin-top:auto}
+:is(#vb,#vbx-test) .vbx-links{margin-top:auto}
+:is(#vb,#vbx-test) .vbx-measure,:is(#vb,#vbx-test) .vbx-measure *{transition:none!important;animation:none!important}
+:is(#vb,#vbx-test) .vbx-perk{height:100%}
+@media (min-width:1081px){ :is(#vb,#vbx-test) .vbx-photo{flex:1 1 auto;aspect-ratio:auto;min-height:260px} }
+</style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
   <div class="vbx-toast" role="status"></div>
@@ -1850,6 +1860,20 @@ function resultHTML(L){
       <div class="vbx-links"><button class="vbx-link" type="button" data-again><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>Пройти ще раз</button><span class="vbx-note">Результат не є діагнозом</span></div>
     </div></div>`;
 }
+/* one fixed card height for the test and every result */
+function lockCard(){
+  if(!test) return; const card = test.querySelector('.vbx-card'); if(!card) return;
+  const w = Math.round(card.getBoundingClientRect().width); if(!w) return;
+  const probe = document.createElement('div'); probe.className = 'vbx-card vbx-measure'; probe.setAttribute('aria-hidden','true');
+  probe.style.cssText = `position:absolute;left:-10000px;top:0;visibility:hidden;width:${w}px;height:auto`;
+  test.appendChild(probe);
+  const hs = [];
+  const take = (html, err) => { probe.innerHTML = html.trim(); if(err){ const m = probe.querySelector('.vbx-emsg'); m && m.classList.add('vbx-on'); } hs.push(probe.getBoundingClientRect().height); };
+  take(quizHTML()); [0,1,2].forEach(L => take(resultHTML(L), true));
+  probe.remove();
+  card.style.height = Math.ceil(Math.max(...hs)) + 'px';
+}
+let lockT; addEventListener('resize', () => { clearTimeout(lockT); lockT = setTimeout(lockCard, 150); });
 function footerEl(){ return document.querySelector('footer.footer') || document.querySelector('footer'); }
 let test = null;
 function placeTest(){
@@ -1862,7 +1886,8 @@ function placeTest(){
       <div class="vbx-perks">${PERKS.map(([t,d,s])=>`<div class="vbx-perk">${s}<span><b>${t}</b><small>${d}</small></span></div>`).join('')}</div></div>
     <div class="vbx-card" aria-live="polite">${quizHTML()}</div></div>`;
   f.parentNode.insertBefore(test, f);
-  bindQuiz();
+  bindQuiz(); lockCard();
+  document.fonts && document.fonts.ready.then(lockCard);
 }
 function bindQuiz(){
   const card = test.querySelector('.vbx-card');
