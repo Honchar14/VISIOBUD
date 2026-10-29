@@ -1712,6 +1712,18 @@ html.vbx-nohints #vb .vbx-hints{display:none}
 :is(#vb,#vbx-test) .vbx-card::before{content:"";position:absolute;width:290px;height:290px;right:-182px;top:-130px;border-radius:50%;border:22px solid #F4B183;opacity:.4;pointer-events:none;z-index:0;animation:vbxFloat 8s ease-in-out infinite alternate}
 :is(#vb,#vbx-test) .vbx-card>.vbx-pane{position:relative;z-index:1}
 @media (max-width:800px){ :is(#vb,#vbx-test) .vbx-card::before{width:200px;height:200px;border-width:16px;right:-120px;top:-90px} }
+
+/* rings positioned exactly as in the Figma design */
+:is(#vb,#vbx-test) .vbx-rg.vbx-r1{width:246px;height:246px;border-width:30px;left:193px;right:auto;top:-154px;bottom:auto;opacity:.45}
+:is(#vb,#vbx-test) .vbx-rg.vbx-r2{width:194px;height:194px;border-width:24px;right:-87px;left:auto;bottom:-67px;top:auto;opacity:.4}
+:is(#vb,#vbx-test) .vbx-rg.vbx-r3{width:110px;height:110px;border-width:14px;left:-45px;right:auto;bottom:-11px;top:auto;opacity:.35}
+:is(#vb,#vbx-test) .vbx-card::before{width:253px;height:253px;border-width:24px;right:-113px;top:-102px}
+@media (max-width:800px){
+  :is(#vb,#vbx-test) .vbx-rg.vbx-r1{display:none}
+  :is(#vb,#vbx-test) .vbx-rg.vbx-r2{width:172px;height:172px;border-width:22px;right:-68px;bottom:-76px}
+  :is(#vb,#vbx-test) .vbx-rg.vbx-r3{width:104px;height:104px;border-width:14px;left:-43px;top:243px;bottom:auto}
+  :is(#vb,#vbx-test) .vbx-card::before{width:200px;height:200px;border-width:18px;right:-96px;top:-84px}
+}
 </style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
