@@ -1724,6 +1724,9 @@ html.vbx-nohints #vb .vbx-hints{display:none}
   :is(#vb,#vbx-test) .vbx-rg.vbx-r3{width:104px;height:104px;border-width:14px;left:-43px;top:243px;bottom:auto}
   :is(#vb,#vbx-test) .vbx-card::before{width:200px;height:200px;border-width:18px;right:-96px;top:-84px}
 }
+
+:is(#vb,#vbx-test) .vbx-ph::after{background:linear-gradient(90deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.55) 70%,rgba(255,255,255,.9) 88%,#fff 99%)}
+@media (max-width:800px){ :is(#vb,#vbx-test) .vbx-ph::after{background:linear-gradient(180deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.8) 72%,#fff 96%)} }
 </style>
 <div id="vb" class="vbx">
   <div class="vbx-hints"></div>
